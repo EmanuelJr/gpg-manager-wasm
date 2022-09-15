@@ -1,0 +1,31 @@
+[package]
+name = "gpg-manager-wasm"
+version = "0.1.0"
+authors = ["Emanuel Júnior <emanuelmpjr@gmail.com>"]
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = ["wee_alloc"]
+
+[dependencies]
+hex = "0.4.3"
+pgp = { version = "0.8", default-features = false, features = ["wasm"]}
+rand = "0.8.5"
+getrandom = { version = "0.2", features = ["js"] }
+wasm-bindgen = "0.2.63"
+js-sys = "0.3.60"
+
+# `wee_alloc` is a tiny allocator for wasm that is only ~1K in code size
+# compared to the default allocator's ~10K. It is slower than the default
+# allocator, however.
+wee_alloc = { version = "0.4.5", optional = true }
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3.13"
+
+[profile.release]
+# Tell `rustc` to optimize for small code size.
+opt-level = "s"
