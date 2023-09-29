@@ -1,7 +1,8 @@
 use crate::key::KeyType;
 use hex;
 use js_sys::Array;
-use pgp::crypto::{HashAlgorithm, SymmetricKeyAlgorithm};
+use pgp::crypto::hash::HashAlgorithm;
+use pgp::crypto::sym::SymmetricKeyAlgorithm;
 use pgp::types::{KeyTrait, SecretKeyTrait};
 use pgp::{Deserializable, Message, PublicOrSecret};
 use std::collections::HashMap;
@@ -160,7 +161,7 @@ impl KeyRing {
         let message = match &encrypted_message {
             Message::Encrypted { .. } => {
                 let (mut decrypter, _ids) = encrypted_message
-                    .decrypt(|| String::new(), || key_password, &[&secret_key])
+                    .decrypt(|| key_password, &[&secret_key])
                     .map_err(|_| "Failed to init decryption")?;
 
                 let decrypted = decrypter
@@ -202,5 +203,11 @@ impl KeyRing {
             .map_err(|_| "Failed to encode message")?;
 
         Ok(signature.into())
+    }
+}
+
+impl Default for KeyRing {
+    fn default() -> Self {
+        Self::new()
     }
 }

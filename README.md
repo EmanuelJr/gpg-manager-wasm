@@ -2,7 +2,7 @@
 GPG Manager WASM is a library made in Rust to be compiled in WASM to manage GPG keys.
 
 ## Dependencies
-- Rust
+- [Rust](https://rustup.rs/)
 - [wasm-pack](https://github.com/rustwasm/wasm-pack)
 
 ## Using

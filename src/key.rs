@@ -37,11 +37,11 @@ pub fn generate_key(
 ) -> Result<KeyPair, JsValue> {
     let key_params = SecretKeyParamsBuilder::default()
         .key_type(KT::Rsa(key_bits))
-        .expiration(expiration_seconds.map(|expiration| Duration::from_secs(expiration)))
+        .expiration(expiration_seconds.map(Duration::from_secs))
         .can_create_certificates(true)
         .can_sign(true)
         .can_encrypt(true)
-        .primary_user_id(format!("{} <{}>", full_name, email).into())
+        .primary_user_id(format!("{} <{}>", full_name, email))
         .passphrase(Some(password.to_string()))
         .build()
         .unwrap();
